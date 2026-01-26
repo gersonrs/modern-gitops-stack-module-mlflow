@@ -1,6 +1,6 @@
 dependencies:
 - name: mlflow
   repository: https://community-charts.github.io/helm-charts/
-  version: 0.12.0
-digest: sha256:15172171c7d2447f7dc914721b90c5b0df2320a5e2fc83ce6fc5f9560d0ef3d8
-generated: "2025-01-18T18:47:52.199361364-03:00"
+  version: 1.8.1
+digest: sha256:9de59d999f2ba0ec296151865ee2b385614761d8a09064f6a404b4194e30656f
+generated: "2026-01-26T02:09:29.394592961-03:00"

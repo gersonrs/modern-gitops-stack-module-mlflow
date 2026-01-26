@@ -1,11 +1,14 @@
 locals {
-  domain      = format("mlflow.%s", trimprefix("${var.subdomain}.${var.base_domain}", "."))
-  domain_full = format("mlflow.%s.%s", trimprefix("${var.subdomain}.${var.cluster_name}", "."), var.base_domain)
+  domain = "mlflow.${var.subdomain != "" ? "${trimprefix(var.subdomain, ".")}." : ""}${var.base_domain}" # https://mlflow.apps.172-19-0-100.nip.io/
 
   helm_values = [{
     mlflow = {
       serviceMonitor = {
         enabled = var.enable_service_monitor
+      }
+      # Disable log to prevent gunicorn-opts being added (required for security middleware)
+      log = {
+        enabled = false
       }
       extraEnvVars = {
         MLFLOW_S3_ENDPOINT_URL = "http://${var.storage.endpoint}"
@@ -13,14 +16,18 @@ locals {
         # MLFLOW_S3_UPLOAD_EXTRA_ARGS: '{"ServerSideEncryption": "aws:kms", "SSEKMSKeyId": "1234"}'
         # AWS_DEFAULT_REGION: my_region
       }
+      # Allowed hosts for DNS rebinding protection (MLflow 2.x+ with uvicorn)
+      extraArgs = {
+        allowedHosts = local.domain
+      }
 
       artifactRoot = {
         s3 = {
           enabled            = true
           bucket             = "mlflow"
           path               = ""
-          awsAccessKeyId     = "${var.storage.access_key}"
-          awsSecretAccessKey = "${var.storage.secret_access_key}"
+          awsAccessKeyId     = var.storage.access_key
+          awsSecretAccessKey = var.storage.secret_access_key
         }
       }
       backendStore = {
@@ -28,11 +35,11 @@ locals {
         databaseMigration : true
         postgres = {
           enabled  = true
-          host     = "${var.database.service}"
+          host     = var.database.service
           port     = 5432
-          database = "${var.database.database}"
-          user     = "${var.database.user}"
-          password = "${var.database.password}"
+          database = var.database.database
+          user     = var.database.user
+          password = var.database.password
         }
       }
       ingress = {
@@ -42,7 +49,7 @@ locals {
         className : "traefik"
         # -- Additional ingress annotations
         annotations = {
-          "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
+          "cert-manager.io/cluster-issuer"                   = var.cluster_issuer
           "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
           "traefik.ingress.kubernetes.io/router.tls"         = "true"
         }
@@ -53,21 +60,13 @@ locals {
               path     = "/"
               pathType = "ImplementationSpecific"
             }]
-          },
-          {
-            host = local.domain_full
-            paths = [{
-              path     = "/"
-              pathType = "ImplementationSpecific"
-            }]
           }
         ]
         # -- Ingress tls configuration for https access
         tls = [{
           secretName = "mlflow-ingres-tls"
           hosts = [
-            local.domain,
-            local.domain_full
+            local.domain
           ]
         }]
       }

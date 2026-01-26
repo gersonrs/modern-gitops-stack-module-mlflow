@@ -5,4 +5,4 @@ version: "0"
 dependencies:
   - name: mlflow
     repository: https://community-charts.github.io/helm-charts/
-    version: "*.*.*"
+    version: "1.8.1"
