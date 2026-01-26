@@ -1,5 +1,5 @@
 locals {
-  domain = "mlflow.${var.subdomain != "" ? "${trimprefix(var.subdomain, ".")}." : ""}${var.base_domain}"
+  domain = "mlflow.${var.subdomain != "" ? "${trimprefix(var.subdomain, ".")}." : ""}${var.base_domain}" # https://mlflow.apps.172-19-0-100.nip.io/
 
   helm_values = [{
     mlflow = {
@@ -11,6 +11,10 @@ locals {
         MLFLOW_S3_IGNORE_TLS   = true
         # MLFLOW_S3_UPLOAD_EXTRA_ARGS: '{"ServerSideEncryption": "aws:kms", "SSEKMSKeyId": "1234"}'
         # AWS_DEFAULT_REGION: my_region
+      }
+      # Allowed hosts for DNS rebinding protection (MLflow 2.x+)
+      extraArgs = {
+        allowedHosts = local.domain
       }
 
       artifactRoot = {
