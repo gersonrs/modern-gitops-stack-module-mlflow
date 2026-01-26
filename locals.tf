@@ -6,14 +6,20 @@ locals {
       serviceMonitor = {
         enabled = var.enable_service_monitor
       }
+      # Disable log to prevent gunicorn-opts being added (required for security middleware)
+      log = {
+        enabled = false
+      }
       extraEnvVars = {
         MLFLOW_S3_ENDPOINT_URL = "http://${var.storage.endpoint}"
         MLFLOW_S3_IGNORE_TLS   = true
         # MLFLOW_S3_UPLOAD_EXTRA_ARGS: '{"ServerSideEncryption": "aws:kms", "SSEKMSKeyId": "1234"}'
         # AWS_DEFAULT_REGION: my_region
       }
-      # Disable security middleware for DNS rebinding protection (MLflow 2.x+ with gunicorn)
-      extraFlags = ["disableSecurityMiddleware"]
+      # Allowed hosts for DNS rebinding protection (MLflow 2.x+ with uvicorn)
+      extraArgs = {
+        allowedHosts = local.domain
+      }
 
       artifactRoot = {
         s3 = {
