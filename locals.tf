@@ -12,10 +12,8 @@ locals {
         # MLFLOW_S3_UPLOAD_EXTRA_ARGS: '{"ServerSideEncryption": "aws:kms", "SSEKMSKeyId": "1234"}'
         # AWS_DEFAULT_REGION: my_region
       }
-      # Allowed hosts for DNS rebinding protection (MLflow 2.x+)
-      extraArgs = {
-        allowedHosts = local.domain
-      }
+      # Disable security middleware for DNS rebinding protection (MLflow 2.x+ with gunicorn)
+      extraFlags = ["disableSecurityMiddleware"]
 
       artifactRoot = {
         s3 = {
