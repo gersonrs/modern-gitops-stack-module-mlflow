@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.3.0](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/compare/v1.2.1...v1.3.0) (2026-01-26)
+
+
+### 🚀 New Features
+
+* adjust kubernetes revision ([f8131a6](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/f8131a6867d3fbf8daf1325392c28675a98f13cf))
+* adjust workflows ([d864d0f](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/d864d0f5ae090b96ce3744f8f10adce0d291e5ef))
+* update chart ([4e7b5ba](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/4e7b5baf092bfc0a4083865bd1f7895485bbc50c))
+* update the things ([ff31ffc](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/ff31ffc34f5bf5e415df27077605890d7b4fb0d5))
+
+
+### 🔥 Bug Fixes
+
+* adicionar allowedHosts para proteção DNS rebinding do MLflow 2.x ([e7f7156](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/e7f715633e5949511bdcbb66c751c3ae5d8cea41))
+* desabilitar log para usar uvicorn com allowedHosts ([cd5fcf0](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/cd5fcf01102f13fc510479a516c8f330f0fddee5))
+* usar disableSecurityMiddleware em vez de allowedHosts para compatibilidade com gunicorn ([edfd5e9](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/edfd5e9c2fdc8d093319849f18404550abef1643))
+
+
+### ⚙️ Chores
+
+* remover arquivos extraídos do chart mlflow ([2ae9c33](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/commit/2ae9c33362aec1a2e8350630a1f96843b9b9afb5))
+
 ## [1.2.1](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/compare/v1.2.0...v1.2.1) (2025-02-08)
 
 
