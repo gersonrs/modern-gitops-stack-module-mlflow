@@ -1,6 +1,5 @@
 locals {
-  domain      = format("mlflow.%s", trimprefix("${var.subdomain}.${var.base_domain}", "."))
-  domain_full = format("mlflow.%s.%s", trimprefix("${var.subdomain}.${var.cluster_name}", "."), var.base_domain)
+  domain = "mlflow.${var.subdomain != "" ? "${trimprefix(var.subdomain, ".")}." : ""}${var.base_domain}"
 
   helm_values = [{
     mlflow = {
@@ -19,8 +18,8 @@ locals {
           enabled            = true
           bucket             = "mlflow"
           path               = ""
-          awsAccessKeyId     = "${var.storage.access_key}"
-          awsSecretAccessKey = "${var.storage.secret_access_key}"
+          awsAccessKeyId     = var.storage.access_key
+          awsSecretAccessKey = var.storage.secret_access_key
         }
       }
       backendStore = {
@@ -28,11 +27,11 @@ locals {
         databaseMigration : true
         postgres = {
           enabled  = true
-          host     = "${var.database.service}"
+          host     = var.database.service
           port     = 5432
-          database = "${var.database.database}"
-          user     = "${var.database.user}"
-          password = "${var.database.password}"
+          database = var.database.database
+          user     = var.database.user
+          password = var.database.password
         }
       }
       ingress = {
@@ -42,7 +41,7 @@ locals {
         className : "traefik"
         # -- Additional ingress annotations
         annotations = {
-          "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
+          "cert-manager.io/cluster-issuer"                   = var.cluster_issuer
           "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
           "traefik.ingress.kubernetes.io/router.tls"         = "true"
         }
@@ -53,21 +52,13 @@ locals {
               path     = "/"
               pathType = "ImplementationSpecific"
             }]
-          },
-          {
-            host = local.domain_full
-            paths = [{
-              path     = "/"
-              pathType = "ImplementationSpecific"
-            }]
           }
         ]
         # -- Ingress tls configuration for https access
         tls = [{
           secretName = "mlflow-ingres-tls"
           hosts = [
-            local.domain,
-            local.domain_full
+            local.domain
           ]
         }]
       }
