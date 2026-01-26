@@ -110,7 +110,7 @@ resource "null_resource" "this" {
   ]
 }
 
-data "kubernetes_service" "mlflow" {
+data "kubernetes_service_v1" "mlflow" {
   metadata {
     name      = "mlflow"
     namespace = "mlflow"
