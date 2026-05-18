@@ -38,7 +38,7 @@ spec:
             - --oidc-issuer-url={{ .Values.oauth2proxy.oidc.issuerUrl }}
             - --client-id={{ .Values.oauth2proxy.oidc.clientId }}
             - --email-domain=*
-            - --scope=openid email profile
+            - --scope=openid email profile groups
             - --cookie-secure=true
             - --cookie-samesite=lax
             - --skip-provider-button=true
