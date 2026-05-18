@@ -44,6 +44,7 @@ spec:
             - --skip-provider-button=true
             - --pass-access-token=true
             - --pass-user-headers=true
+            - --skip-jwt-bearer-tokens=true
             {{- range .Values.oauth2proxy.extraArgs }}
             - {{ . | quote }}
             {{- end }}
