@@ -132,7 +132,7 @@ variable "oidc" {
 }
 
 variable "allowed_groups" {
-  description = "List of Keycloak groups allowed to access MLflow (e.g. ["/data-scientists"]). When empty, any authenticated user is allowed. Only effective when oidc is configured."
+  description = "List of Keycloak groups allowed to access MLflow (e.g. [\"/data-scientists\"]). When empty, any authenticated user is allowed. Only effective when oidc is configured."
   type        = list(string)
   default     = []
 }
