@@ -44,31 +44,13 @@ locals {
       }
       ingress = {
         # -- Specifies if you want to create an ingress access
-        enabled : true
-        # -- New style ingress class name. Only possible if you use K8s 1.18.0 or later version
-        className : "traefik"
-        # -- Additional ingress annotations
-        annotations = {
-          "cert-manager.io/cluster-issuer"                   = var.cluster_issuer
-          "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-          "traefik.ingress.kubernetes.io/router.tls"         = "true"
-        }
-        hosts = [
-          {
-            host = local.domain
-            paths = [{
-              path     = "/"
-              pathType = "ImplementationSpecific"
-            }]
-          }
-        ]
-        # -- Ingress tls configuration for https access
-        tls = [{
-          secretName = "mlflow-ingres-tls"
-          hosts = [
-            local.domain
-          ]
-        }]
+        enabled : false
+      }
+      httproute = {
+        enabled           = true
+        host              = local.domain
+        gateway_name      = var.gateway_name
+        gateway_namespace = var.gateway_namespace
       }
     }
   }]

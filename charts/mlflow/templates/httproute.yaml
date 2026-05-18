@@ -1,0 +1,18 @@
+{{- if .Values.mlflow.httproute.enabled }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mlflow
+spec:
+  parentRefs:
+    - name: {{ .Values.mlflow.httproute.gateway_name | default "istio-gateway" }}
+      namespace: {{ .Values.mlflow.httproute.gateway_namespace | default "istio-ingress" }}
+      sectionName: https
+  hostnames:
+    - {{ .Values.mlflow.httproute.host | quote }}
+  rules:
+    - backendRefs:
+        - name: mlflow
+          port: 80
+{{- end }}

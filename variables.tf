@@ -104,3 +104,15 @@ variable "database" {
     service  = string
   })
 }
+
+variable "gateway_name" {
+  description = "Name of the Istio Gateway resource to attach HTTPRoutes to."
+  type        = string
+  default     = "istio-gateway"
+}
+
+variable "gateway_namespace" {
+  description = "Namespace where the Istio Gateway resource is deployed."
+  type        = string
+  default     = "istio-ingress"
+}
