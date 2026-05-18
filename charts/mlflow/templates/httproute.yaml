@@ -13,6 +13,6 @@ spec:
     - {{ .Values.httproute.host | quote }}
   rules:
     - backendRefs:
-        - name: mlflow
-          port: 80
+        - name: {{ .Values.httproute.backend_service | default "mlflow" }}
+          port: {{ .Values.httproute.backend_port | default 80 }}
 {{- end }}

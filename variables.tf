@@ -116,3 +116,17 @@ variable "gateway_namespace" {
   type        = string
   default     = "istio-ingress"
 }
+
+variable "oidc" {
+  description = "OIDC configuration for oauth2-proxy authentication in front of MLflow. When set, all requests are authenticated via the configured OIDC provider (e.g. Keycloak) before reaching MLflow."
+  type = object({
+    issuer_url              = string
+    oauth_url               = string
+    token_url               = string
+    api_url                 = string
+    client_id               = string
+    client_secret           = string
+    oauth2_proxy_extra_args = optional(list(string), [])
+  })
+  default = null
+}

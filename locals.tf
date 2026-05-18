@@ -55,6 +55,24 @@ locals {
       host              = local.domain
       gateway_name      = var.gateway_name
       gateway_namespace = var.gateway_namespace
+      # When oidc is configured, HTTPRoute points to oauth2-proxy instead of mlflow directly
+      backend_service = var.oidc != null ? "mlflow-oauth2-proxy" : "mlflow"
+      backend_port    = var.oidc != null ? 4180 : 80
     }
   }]
+
+  helm_values_oauth2proxy = var.oidc != null ? [{
+    oauth2proxy = {
+      enabled      = true
+      upstreamUrl  = "http://mlflow:80"
+      redirectUrl  = "https://${local.domain}/oauth2/callback"
+      cookieSecret = random_password.oauth2_proxy_cookie_secret.result
+      oidc = {
+        issuerUrl    = var.oidc.issuer_url
+        clientId     = var.oidc.client_id
+        clientSecret = var.oidc.client_secret
+      }
+      extraArgs = var.oidc.oauth2_proxy_extra_args
+    }
+  }] : []
 }
