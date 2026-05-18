@@ -46,12 +46,15 @@ locals {
         # -- Specifies if you want to create an ingress access
         enabled : false
       }
-      httproute = {
-        enabled           = true
-        host              = local.domain
-        gateway_name      = var.gateway_name
-        gateway_namespace = var.gateway_namespace
-      }
+    }
+  }]
+
+  helm_values_httproute = [{
+    httproute = {
+      enabled           = true
+      host              = local.domain
+      gateway_name      = var.gateway_name
+      gateway_namespace = var.gateway_namespace
     }
   }]
 }
