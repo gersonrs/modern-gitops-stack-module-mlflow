@@ -72,7 +72,10 @@ locals {
         clientId     = var.oidc.client_id
         clientSecret = var.oidc.client_secret
       }
-      extraArgs = var.oidc.oauth2_proxy_extra_args
+      extraArgs = concat(
+        var.oidc.oauth2_proxy_extra_args,
+        [for g in var.allowed_groups : "--allowed-group=${g}"]
+      )
     }
   }] : []
 }
