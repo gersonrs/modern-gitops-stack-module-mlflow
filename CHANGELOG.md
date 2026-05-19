@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v1.3.0...v1.4.0) (2026-05-19)
+
+
+### 🚀 New Features
+
+* add --skip-jwt-bearer-tokens for programmatic MLflow access ([c2c3fb2](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/c2c3fb290ca0d9f6ace2c81e6c5de9a053cafe4d))
+* add allowed_groups variable for RBAC via oauth2-proxy ([16efa29](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/16efa292495c8ea69feffc6fd30417f0c7a8ac83))
+* add oauth2-proxy for Keycloak SSO authentication ([7fb8d73](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/7fb8d735bc70b2f96906846d19e5eb21f9f9060f))
+* migrate from Traefik Ingress to Istio Gateway API HTTPRoute ([7068082](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/7068082d14f275958edc010c71e391f332274df6))
+* migrate to Istio HTTPRoute, add oauth2-proxy RBAC and SSO ([93185c9](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/93185c9070225500489485b6a5db439ce708b045))
+
+
+### 🔥 Bug Fixes
+
+* add groups scope to oauth2-proxy for Keycloak group claims ([fef7872](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/fef7872dddebf1d44e197f20783bf8a5f0ad7cec))
+* escape quotes in allowed_groups description ([ce4b586](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/ce4b5869165cafd11264bc2eee789ff810011ea0))
+* move httproute values to wrapper chart root to avoid schema validation ([5d358c0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/5d358c0fae33017c8db55f2a43c3661b8a7c1a83))
+
 ## [1.3.0](https://github.com/GersonRS/modern-gitops-stack-module-mlflow/compare/v1.2.1...v1.3.0) (2026-01-26)
 
 
