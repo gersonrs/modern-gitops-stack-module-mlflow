@@ -104,3 +104,35 @@ variable "database" {
     service  = string
   })
 }
+
+variable "gateway_name" {
+  description = "Name of the Istio Gateway resource to attach HTTPRoutes to."
+  type        = string
+  default     = "istio-gateway"
+}
+
+variable "gateway_namespace" {
+  description = "Namespace where the Istio Gateway resource is deployed."
+  type        = string
+  default     = "istio-ingress"
+}
+
+variable "oidc" {
+  description = "OIDC configuration for oauth2-proxy authentication in front of MLflow. When set, all requests are authenticated via the configured OIDC provider (e.g. Keycloak) before reaching MLflow."
+  type = object({
+    issuer_url              = string
+    oauth_url               = string
+    token_url               = string
+    api_url                 = string
+    client_id               = string
+    client_secret           = string
+    oauth2_proxy_extra_args = optional(list(string), [])
+  })
+  default = null
+}
+
+variable "allowed_groups" {
+  description = "List of Keycloak groups allowed to access MLflow (e.g. [\"/data-scientists\"]). When empty, any authenticated user is allowed. Only effective when oidc is configured."
+  type        = list(string)
+  default     = []
+}
