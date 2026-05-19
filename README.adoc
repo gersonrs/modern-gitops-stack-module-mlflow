@@ -18,6 +18,8 @@ The following providers are used by this module:
 
 - [[provider_null]] <<provider_null,null>> (>= 3)
 
+- [[provider_random]] <<provider_random,random>>
+
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 6)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1)
@@ -32,6 +34,7 @@ The following resources are used by this module:
 - https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project[argocd_project.this] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
+- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_proxy_cookie_secret] (resource)
 - https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/service_v1[kubernetes_service_v1.mlflow] (data source)
 - https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] (data source)
 
@@ -123,7 +126,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.3.0"`
+Default: `"v1.4.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -181,6 +184,50 @@ Type: `map(string)`
 
 Default: `{}`
 
+==== [[input_gateway_name]] <<input_gateway_name,gateway_name>>
+
+Description: Name of the Istio Gateway resource to attach HTTPRoutes to.
+
+Type: `string`
+
+Default: `"istio-gateway"`
+
+==== [[input_gateway_namespace]] <<input_gateway_namespace,gateway_namespace>>
+
+Description: Namespace where the Istio Gateway resource is deployed.
+
+Type: `string`
+
+Default: `"istio-ingress"`
+
+==== [[input_oidc]] <<input_oidc,oidc>>
+
+Description: OIDC configuration for oauth2-proxy authentication in front of MLflow. When set, all requests are authenticated via the configured OIDC provider (e.g. Keycloak) before reaching MLflow.
+
+Type:
+[source,hcl]
+----
+object({
+    issuer_url              = string
+    oauth_url               = string
+    token_url               = string
+    api_url                 = string
+    client_id               = string
+    client_secret           = string
+    oauth2_proxy_extra_args = optional(list(string), [])
+  })
+----
+
+Default: `null`
+
+==== [[input_allowed_groups]] <<input_allowed_groups,allowed_groups>>
+
+Description: List of Keycloak groups allowed to access MLflow (e.g. ["/data-scientists"]). When empty, any authenticated user is allowed. Only effective when oidc is configured.
+
+Type: `list(string)`
+
+Default: `[]`
+
 === Outputs
 
 The following outputs are exported:
@@ -223,9 +270,10 @@ Description: MLflow endpoint external
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_null]] <<provider_null,null>> |>= 3
+|[[provider_random]] <<provider_random,random>> |n/a
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 6
 |[[provider_utils]] <<provider_utils,utils>> |>= 1
+|[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_kubernetes]] <<provider_kubernetes,kubernetes>> |n/a
 |===
 
@@ -238,6 +286,7 @@ Description: MLflow endpoint external
 |https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project[argocd_project.this] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.dependencies] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
+|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_proxy_cookie_secret] |resource
 |https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/data-sources/service_v1[kubernetes_service_v1.mlflow] |data source
 |https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] |data source
 |===
@@ -286,7 +335,7 @@ Description: MLflow endpoint external
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.3.0"`
+|`"v1.4.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -372,6 +421,44 @@ object({
 
 |n/a
 |yes
+
+|[[input_gateway_name]] <<input_gateway_name,gateway_name>>
+|Name of the Istio Gateway resource to attach HTTPRoutes to.
+|`string`
+|`"istio-gateway"`
+|no
+
+|[[input_gateway_namespace]] <<input_gateway_namespace,gateway_namespace>>
+|Namespace where the Istio Gateway resource is deployed.
+|`string`
+|`"istio-ingress"`
+|no
+
+|[[input_oidc]] <<input_oidc,oidc>>
+|OIDC configuration for oauth2-proxy authentication in front of MLflow. When set, all requests are authenticated via the configured OIDC provider (e.g. Keycloak) before reaching MLflow.
+|
+
+[source]
+----
+object({
+    issuer_url              = string
+    oauth_url               = string
+    token_url               = string
+    api_url                 = string
+    client_id               = string
+    client_secret           = string
+    oauth2_proxy_extra_args = optional(list(string), [])
+  })
+----
+
+|`null`
+|no
+
+|[[input_allowed_groups]] <<input_allowed_groups,allowed_groups>>
+|List of Keycloak groups allowed to access MLflow (e.g. ["/data-scientists"]). When empty, any authenticated user is allowed. Only effective when oidc is configured.
+|`list(string)`
+|`[]`
+|no
 
 |===
 
