@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v1.4.0...v1.5.0) (2026-07-11)
+
+
+### 🚀 New Features
+
+* add namespace_labels variable to all modules ([20f1a20](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/20f1a2080c696105d31445c25b87c9cf362ba134))
+* add namespace_labels variable to all modules ([1c9722b](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/1c9722b85fc2d672da5c95b10c85289efd7bf73f))
+
 ## [1.4.0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v1.3.0...v1.4.0) (2026-05-19)
 
 
