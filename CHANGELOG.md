@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v1.5.0...v2.0.0) (2026-11-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* provider major bumps and a stricter Terraform baseline; consumers must run `terraform init -upgrade`.
+
+### 🚀 New Features
+
+* upgrade charts, providers and Terraform baseline ([#14](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/issues/14)) ([9536b18](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/9536b183df457993d91ea3ff6a2fc6551e58d897))
+
 ## [1.5.0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v1.4.0...v1.5.0) (2026-07-11)
 
 
