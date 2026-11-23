@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v2.0.0...v2.0.1) (2026-11-23)
+
+
+### 🔥 Bug Fixes
+
+* back the prometheus metrics directory with an emptyDir ([#16](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/issues/16)) ([8d83f53](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/8d83f530bce12b3cedbd362717eac4dfac753365))
+
 ## [2.0.0](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v1.5.0...v2.0.0) (2026-11-20)
 
 
