@@ -10,6 +10,22 @@ locals {
       log = {
         enabled = false
       }
+      # The chart passes --expose-prometheus=/mlflow/metrics while its own
+      # securityContext sets readOnlyRootFilesystem, so MLflow crashes on
+      # startup with "OSError: Read-only file system: '/mlflow/metrics'".
+      # Back the metrics directory with an emptyDir.
+      extraVolumes = [
+        {
+          name     = "prometheus-metrics"
+          emptyDir = {}
+        }
+      ]
+      extraVolumeMounts = [
+        {
+          name      = "prometheus-metrics"
+          mountPath = "/mlflow/metrics"
+        }
+      ]
       extraEnvVars = {
         MLFLOW_S3_ENDPOINT_URL = "http://${var.storage.endpoint}"
         MLFLOW_S3_IGNORE_TLS   = true
