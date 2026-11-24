@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v2.0.1...v2.0.2) (2026-11-24)
+
+
+### 📚 Documentation
+
+* add usage and dependencies to the module documentation ([#18](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/issues/18)) ([1309582](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/commit/1309582872f44316d3c4f032414af8917220044a))
+
 ## [2.0.1](https://github.com/gersonrs/modern-gitops-stack-module-mlflow/compare/v2.0.0...v2.0.1) (2026-11-23)
 
 
