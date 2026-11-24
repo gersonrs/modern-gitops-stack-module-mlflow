@@ -1,5 +1,60 @@
 = modern-gitops-stack-module-mlflow
+// Document attributes to replace along the document
+:mlflow-chart-version: 1.11.7
+:original-repo-url: https://github.com/community-charts/helm-charts
 
+A https://modern-gitops-stack.io[Modern GitOps Stack] module to deploy MLflow, the platform to track experiments, log metrics and store model artifacts.
+
+The mlflow chart used by this module is shipped in this repository as well, in order to avoid any unwanted behaviors caused by unsupported versions.
+
+[cols="1,1,1",options="autowidth,header"]
+|===
+|Current Chart Version |Original Repository |Default Values
+|*1.11.7* |https://github.com/community-charts/helm-charts/tree/main/charts/mlflow[mlflow] |https://artifacthub.io/packages/helm/mlflow/mlflow/1.11.7?modal=values[`values.yaml`]
+|===
+
+== Usage
+
+This module can be declared by adding the following block to your Terraform configuration:
+
+[source,terraform]
+----
+module "mlflow" {
+  source = "git::https://github.com/GersonRS/modern-gitops-stack-module-mlflow.git?ref=<RELEASE>"
+
+  cluster_name   = local.cluster_name
+  base_domain    = local.base_domain
+  subdomain      = local.subdomain
+  cluster_issuer = local.cluster_issuer
+  app_autosync   = local.app_autosync
+  storage        = { ... }  # MinIO bucket
+  database       = { ... }  # PostgreSQL connection
+
+  dependency_ids = {
+    postgresql = module.postgresql.id
+    minio      = module.minio.id
+    keycloak   = module.keycloak.id
+  }
+}
+----
+
+The application is deployed to the `mlflow` namespace.
+
+== Technical Reference
+
+=== Dependencies
+
+==== `module.postgresql.id`
+
+MLflow stores runs and metrics in PostgreSQL.
+
+==== `module.minio.id`
+
+Model artifacts are stored in MinIO.
+
+==== `module.keycloak.id`
+
+MLflow authenticates through Keycloak.
 
 // BEGIN_TF_DOCS
 === Requirements
